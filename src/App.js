@@ -5,13 +5,32 @@ import Header from "./components/Header";
 import Search from "./components/Search";
 import CardList from "./components/CardList";
 import Footer from "./components/Footer";
+import Counter from "./components/Counter";
+
+
 
 function App() {
-  const [data, setData] = useState([]);
+  
+
+  
+const [data,setData]=useState([0])
+
+
+  
 
   useEffect(() => {
-    //mongo?
+    fetch("https://api.themoviedb.org/3/movie/popular?api_key=2a3251efdb517a29d300c0dcb43f9110")
+    .then(response=>response.json())
+    .then(data=>setData(data.results))
   }, []); //useeffect artık sadece başlangıçta çalışacak//içine state eklersek o değiştiğinde tekrar çalışacak
+
+
+  const searchMovie=(term)=>{
+    fetch(`https://api.themoviedb.org/3/search/movie?api_key=2a3251efdb517a29d300c0dcb43f9110&query=${term}`)
+    .then(response=>response.json())
+    .then(data=>setData(data.results))
+
+  }
 
   return (
     <Router>
@@ -21,9 +40,10 @@ function App() {
           <Header />
           <div className="album py-5 bg-light">
             <div className="container">
-              <Search />
+              <Counter/>
+              <Search searchMovie={searchMovie} />
 
-              <CardList />
+              <CardList movies={data} />
             </div>
           </div>
         </main>
