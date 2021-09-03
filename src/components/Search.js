@@ -1,3 +1,4 @@
+import { buildQueries } from "@testing-library/dom";
 import { useState, useEffect } from "react";
 
 
@@ -8,7 +9,13 @@ const Search = (props) => {
 
   const handleonSubmit=(e)=>{
     setTerm(e.preventDefault())
-    props.searchMovie(term)
+    if(term!=="" || term!==null || term!==undefined || term!=="undefined")
+    {
+
+      props.searchMovie(term)
+
+    }
+    
   }
 
   const handleOnChange=(e)=>{
